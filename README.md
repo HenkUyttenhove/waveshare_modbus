@@ -9,7 +9,7 @@ While I was surfing on the Internet, I noticed the very cheap Waveshare relay sy
 The modbus TCP may sound as the easiest platform but because I'm also looking at integration of solar panels and heat pump, I went for the RS485 to learn more about this.
 AS RS485 is a special 2-wire protocol (A+B and ground), you need an additional gateway.  For this gateway, you can take the older Waveshare RS485 LAN gateway, but I took the newer Waveshare RS485 Wifi-LAN device.
 
-(https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/overview.jpg)
+![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/overview.jpg)
 
 
 
