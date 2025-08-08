@@ -19,12 +19,12 @@ Therefore, this can be used for connecting directly to lights but even powerplug
 However during the implementation, I noticed that the MQTT is not supporting the control per channel and the LAN/Wifi set-up is very confusing.  It's very powerful that you can connect the gateway to UTP and use the Wifi as an access point to your network, but it is not possible to only use the UTP as you can't disable the Wifi. :(
 
 ### The challenges during the activation
-..* The manuals of Waveshare are very confusing and the tools delivered via Wavecom (SSCOM and Vircom) are just not working.  None of the Waveshare tools was able to detect the Waveshare devices so I lost hours assuming that the modbus was not working. The only good tool is a commercial tool called [Modbus Poll] (https://www.modbustools.com/modbus_poll.html).  However it is limited in time, you can easily test the 16-channel relay.
-..* The userinterface of the Wavecom gateway is a nightmare and you don't have any diagnostictools from the interface.  
-..* The modbus plugin in Home Assistant can only be integrated via direct configuration in configuration.yaml.  However, the yaml of HA are very sensitive to typo's and event indents of text.  Every change requires a full reboot of the Home Assistant server.  Additional problem is that Home Assistent made a lot of syntax changes in the config files lately so online resources are typical referring to none working configs
+* The manuals of Waveshare are very confusing and the tools delivered via Wavecom (SSCOM and Vircom) are just not working.  None of the Waveshare tools was able to detect the Waveshare devices so I lost hours assuming that the modbus was not working. The only good tool is a commercial tool called [Modbus Poll] (https://www.modbustools.com/modbus_poll.html).  However it is limited in time, you can easily test the 16-channel relay.
+* The userinterface of the Wavecom gateway is a nightmare and you don't have any diagnostictools from the interface.  
+* The modbus plugin in Home Assistant can only be integrated via direct configuration in configuration.yaml.  However, the yaml of HA are very sensitive to typo's and event indents of text.  Every change requires a full reboot of the Home Assistant server.  Additional problem is that Home Assistent made a lot of syntax changes in the config files lately so online resources are typical referring to none working configs
 
 ### How to configure (assume modbus is correctly connected between gataway and 16-channel relay)
-..* The Waveshare gateway
+* The Waveshare gateway
 In a default configuration, the Waveshare gateway is an AP with a webinterface.  (http://10.10.100.254, admin/admin).  In that interface, it's important to set the baud (serial speed of RS485 bus is fixed for all devices), to choose to use the UTP or Wifi (STA) to integrate into your network and to change the port settings in the application screen to 502.  Also, don't forget the set the mode of operations to TCP RTU to RS485 RTU.  Note that RTU is the used format of communication.  You have RTU and ASCII but only RTU is supported on Waveshare.
 See photo's:
 
@@ -46,19 +46,19 @@ If you want to make sure that you gateway has a fixed IP, go into the AP setting
 
 ![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/routerofbridge.png)
 
-Very confusing setting but here, you will see that the gateway can be bridge or gateway.  In the bridg mode, the wifi AP will become a hotspot with access to your network.  In case of gateway, you get an AP with his own IP range that will route to Internet or your network.  I didn't want any security tunnel to 3th party networks, so took bridge.
+Very confusing setting but here, you will see that the gateway can be bridge (z) or gateway (n).  In the bridge mode, the wifi AP will become a hotspot with access to your network.  In case of gateway, you get an AP with his own IP range that will route to Internet or your network.  I didn't want any security tunnel to 3th party networks, so took bridge.
 
-..* The Waveshare 16 channel relay
+* The Waveshare 16 channel relay
 You can't configure anything on this relay.  You could try to make changes to the relay with the AT commands to for example change the slave "ID" on the RS485 bus.  Default, this is "1" and in Home Assistant, you can see that I didn't had to put this ID as default is also "1".   I didn't try what happens if other devices are added to the RS485 bus.  
 
-..* Test if you can use the 16 channel relay
+* Test if you can use the 16 channel relay
 This is only possible from Windows with the [Modbus Poll] software.  With this software, you can set the gateway details (IP and TCP port) and the number of channels.   Put the mode on "1" or read and you can see the status of the relays.  You can even change and if all is fine, you here a nice click on the relays.
 
 ![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/debug.png)
 
 ![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/debug2.png)
 
-..* The Nightmare -- sorry challenge with Home Assistant
+* The Nightmare -- sorry challenge with Home Assistant
 The only way I was able to get this working was thanks to a night of AI with Google Gemini and ChatGPT.  Google Gemini helpt a lot on the configuration.yaml but could solve the issue with the communication issues with modbus gateway.  However, I knew that there was a solution as I was able to read and write to the 16 channel relay with Python. (code can be found on WaveShare portal with name Modbus_RTU_Relay_16CH_Code.zip)  Note that the code is build for serial RS485 communication, but you can easily convert this to TCP RTU. [see here](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/writecoils.py)
 
 The main problem with Home Assistant is that the default modbus module is not able to communicate correctly with the gateway.  You could read but not write.  Thanks to ChatGPT, I was able to find a way to directly test the connections without going through the UI.  The trick is that you can execute actions directly from the developer tools and actions.  Using the actions, I could read and write the relays.
