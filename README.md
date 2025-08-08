@@ -27,15 +27,25 @@ However during the implementation, I noticed that the MQTT is not supporting the
 ..* The Waveshare gateway
 In a default configuration, the Waveshare gateway is an AP with a webinterface.  (http://10.10.100.254, admin/admin).  In that interface, it's important to set the baud (serial speed of RS485 bus is fixed for all devices), to choose to use the UTP or Wifi (STA) to integrate into your network and to change the port settings in the application screen to 502.  Also, don't forget the set the mode of operations to TCP RTU to RS485 RTU.  Note that RTU is the used format of communication.  You have RTU and ASCII but only RTU is supported on Waveshare.
 See photo's:
+
 ![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/mode_configuration.png)
+
 Choose the TCP to RS485 RTU.  Transparent will not work.
+
 ![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/serialSettings.png)
+
 Make sure you set to default 9600 8N1
+
 ![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/ModBusRTU_port502.png)
+
 In application settings, use the port 502 as this is a market standard
+
 ![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/LANaccess.png)
+
 If you want to make sure that you gateway has a fixed IP, go into the AP settings and update the IP address (I disabled DHCP server assuming as my network has a DHCP server)
+
 ![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/routerofbridge.png)
+
 Very confusing setting but here, you will see that the gateway can be bridge or gateway.  In the bridg mode, the wifi AP will become a hotspot with access to your network.  In case of gateway, you get an AP with his own IP range that will route to Internet or your network.  I didn't want any security tunnel to 3th party networks, so took bridge.
 
 ..* The Waveshare 16 channel relay
@@ -43,8 +53,20 @@ You can't configure anything on this relay.  You could try to make changes to th
 
 ..* Test if you can use the 16 channel relay
 This is only possible from Windows with the [Modbus Poll] software.  With this software, you can set the gateway details (IP and TCP port) and the number of channels.   Put the mode on "1" or read and you can see the status of the relays.  You can even change and if all is fine, you here a nice click on the relays.
+
 ![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/debug.png)
+
 ![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/debug2.png)
+
+..* The Nightmare -- sorry challenge with Home Assistant
+The only way I was able to get this working was thanks to a night of AI with Google Gemini and ChatGPT.  Google Gemini helpt a lot on the configuration.yaml but could solve the issue with the communication issues with modbus gateway.  However, I knew that there was a solution as I was able to read and write to the 16 channel relay with Python. (code can be found on WaveShare portal with name Modbus_RTU_Relay_16CH_Code.zip)  Note that the code is build for serial RS485 communication, but you can easily convert this to TCP RTU. [see here](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/writecoils.py)
+
+The main problem with Home Assistant is that the default modbus module is not able to communicate correctly with the gateway.  You could read but not write.  Thanks to ChatGPT, I was able to find a way to directly test the connections without going through the UI.  The trick is that you can execute actions directly from the developer tools and actions.  Using the actions, I could read and write the relays.
+
+![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/DebugHA.png)
+
+After checking, the only way I was able to use the modbus integration is by using only the config of modbus with dummy switches and add a template of switches. [see here](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/configuration.yaml)
+Note that it took me hours to find the working configuration format as ChatGPT and Google Gemini are still working with the outdated formatting.  After a lot of trials, I was able to get it working.
 
 
 
