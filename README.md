@@ -15,6 +15,37 @@ AS RS485 is a special 2-wire protocol (A+B and ground), you need an additional g
 ### Choice of devices
 [The 16-channnel relay] (https://www.waveshare.com/modbus-rtu-relay-16ch.htm) is able to support 16 channels of 10 Amp/240V was is very impressive.
 Therefore, this can be used for connecting directly to lights but even powerplugs could be supported.  If more power is required, relays can be added.
-[The RS485 gateway] (https://www.waveshare.com/rs485-to-wifi-eth.htm) 
+[The RS485 gateway] (https://www.waveshare.com/rs485-to-wifi-eth.htm) Was selected due to the very flexible DC range for power (5V and higher), the Wifi/UTP connection and the support for MQTT.
+However during the implementation, I noticed that the MQTT is not supporting the control per channel and the LAN/Wifi set-up is very confusing.  It's very powerful that you can connect the gateway to UTP and use the Wifi as an access point to your network, but it is not possible to only use the UTP as you can't disable the Wifi. :(
+
+### The challenges during the activation
+..* The manuals of Waveshare are very confusing and the tools delivered via Wavecom (SSCOM and Vircom) are just not working.  None of the Waveshare tools was able to detect the Waveshare devices so I lost hours assuming that the modbus was not working. The only good tool is a commercial tool called [Modbus Poll] (https://www.modbustools.com/modbus_poll.html).  However it is limited in time, you can easily test the 16-channel relay.
+..* The userinterface of the Wavecom gateway is a nightmare and you don't have any diagnostictools from the interface.  
+..* The modbus plugin in Home Assistant can only be integrated via direct configuration in configuration.yaml.  However, the yaml of HA are very sensitive to typo's and event indents of text.  Every change requires a full reboot of the Home Assistant server.  Additional problem is that Home Assistent made a lot of syntax changes in the config files lately so online resources are typical referring to none working configs
+
+### How to configure (assume modbus is correctly connected between gataway and 16-channel relay)
+..* The Waveshare gateway
+In a default configuration, the Waveshare gateway is an AP with a webinterface.  (http://10.10.100.254, admin/admin).  In that interface, it's important to set the baud (serial speed of RS485 bus is fixed for all devices), to choose to use the UTP or Wifi (STA) to integrate into your network and to change the port settings in the application screen to 502.  Also, don't forget the set the mode of operations to TCP RTU to RS485 RTU.  Note that RTU is the used format of communication.  You have RTU and ASCII but only RTU is supported on Waveshare.
+See photo's:
+![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/mode_configuration.png)
+Choose the TCP to RS485 RTU.  Transparent will not work.
+![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/serialSettings.png)
+Make sure you set to default 9600 8N1
+![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/ModBusRTU_port502.png)
+In application settings, use the port 502 as this is a market standard
+![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/LANaccess.png)
+If you want to make sure that you gateway has a fixed IP, go into the AP settings and update the IP address (I disabled DHCP server assuming as my network has a DHCP server)
+![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/routerofbridge.png)
+Very confusing setting but here, you will see that the gateway can be bridge or gateway.  In the bridg mode, the wifi AP will become a hotspot with access to your network.  In case of gateway, you get an AP with his own IP range that will route to Internet or your network.  I didn't want any security tunnel to 3th party networks, so took bridge.
+
+..* The Waveshare 16 channel relay
+You can't configure anything on this relay.  You could try to make changes to the relay with the AT commands to for example change the slave "ID" on the RS485 bus.  Default, this is "1" and in Home Assistant, you can see that I didn't had to put this ID as default is also "1".   I didn't try what happens if other devices are added to the RS485 bus.  
+
+..* Test if you can use the 16 channel relay
+This is only possible from Windows with the [Modbus Poll] software.  With this software, you can set the gateway details (IP and TCP port) and the number of channels.   Put the mode on "1" or read and you can see the status of the relays.  You can even change and if all is fine, you here a nice click on the relays.
+![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/debug.png)
+![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/debug2.png)
+
+
 
 
