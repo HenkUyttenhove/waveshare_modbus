@@ -12,5 +12,9 @@ AS RS485 is a special 2-wire protocol (A+B and ground), you need an additional g
 ![alt text](https://github.com/HenkUyttenhove/waveshare_modbus/blob/main/overview.jpg)
 
 
+### Choice of devices
+[The 16-channnel relay] (https://www.waveshare.com/modbus-rtu-relay-16ch.htm) is able to support 16 channels of 10 Amp/240V was is very impressive.
+Therefore, this can be used for connecting directly to lights but even powerplugs could be supported.  If more power is required, relays can be added.
+[The RS485 gateway] (https://www.waveshare.com/rs485-to-wifi-eth.htm) 
 
 
