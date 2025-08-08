@@ -1,0 +1,377 @@
+modbus:
+  - name: WaveShare_16channel
+    type: tcp
+    host: 172.16.0.35
+    port: 502
+    delay: .5
+    binary_sensors:
+      - name: "Contact 1 Status"
+        unique_id: "modbus_contact_1_status"
+        address: 0
+        slave: 1
+        input_type: coil
+      - name: "Contact 2 Status"
+        unique_id: "modbus_contact_2_status"
+        address: 1
+        slave: 1
+        input_type: coil
+      - name: "Contact 3 Status"
+        unique_id: "modbus_contact_3_status"
+        address: 2
+        slave: 1
+        input_type: coil
+      - name: "Contact 4 Status"
+        unique_id: "modbus_contact_4_status"
+        address: 3
+        slave: 1
+        input_type: coil
+      - name: "Contact 5 Status"
+        unique_id: "modbus_contact_5_status"
+        address: 4
+        slave: 1
+        input_type: coil
+      - name: "Contact 6 Status"
+        unique_id: "modbus_contact_6_status"
+        address: 5
+        slave: 1
+        input_type: coil
+      - name: "Contact 7 Status"
+        unique_id: "modbus_contact_7_status"
+        address: 6
+        slave: 1
+        input_type: coil
+      - name: "Contact 8 Status"
+        unique_id: "modbus_contact_8_status"
+        address: 7
+        slave: 1
+        input_type: coil
+      - name: "Contact 9 Status"
+        unique_id: "modbus_contact_9_status"
+        address: 8
+        slave: 1
+        input_type: coil
+      - name: "Contact 10 Status"
+        unique_id: "modbus_contact_10_status"
+        address: 9
+        slave: 1
+        input_type: coil
+      - name: "Contact 11 Status"
+        unique_id: "modbus_contact_11_status"
+        address: 10
+        slave: 1
+        input_type: coil
+      - name: "Contact 12 Status"
+        unique_id: "modbus_contact_12_status"
+        address: 11
+        slave: 1
+        input_type: coil
+      - name: "Contact 13 Status"
+        unique_id: "modbus_contact_13_status"
+        address: 12
+        slave: 1
+        input_type: coil
+      - name: "Contact 14 Status"
+        unique_id: "modbus_contact_14_status"
+        address: 13
+        slave: 1
+        input_type: coil
+      - name: "Contact 15 Status"
+        unique_id: "modbus_contact_15_status"
+        address: 14
+        slave: 1
+        input_type: coil
+      - name: "Contact 16 Status"
+        unique_id: "modbus_contact_16_status"
+        address: 15
+        slave: 1
+        input_type: coil
+
+template:
+  - switch:
+      - name: "Contact 1"
+        unique_id: "modbus_contact_1"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 0
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 0
+              state: false
+
+      - name: "Contact 2"
+        unique_id: "modbus_contact_2"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 1
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 1
+              state: false
+
+      - name: "Contact 3"
+        unique_id: "modbus_contact_3"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 2
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 2
+              state: false
+
+      - name: "Contact 4"
+        unique_id: "modbus_contact_4"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 3
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 3
+              state: false
+
+      - name: "Contact 5"
+        unique_id: "modbus_contact_5"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 4
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 4
+              state: false
+
+      - name: "Contact 6"
+        unique_id: "modbus_contact_6"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 5
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 5
+              state: false
+
+      - name: "Contact 7"
+        unique_id: "modbus_contact_7"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 6
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 6
+              state: false
+
+      - name: "Contact 8"
+        unique_id: "modbus_contact_8"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 7
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 7
+              state: false
+
+      - name: "Contact 9"
+        unique_id: "modbus_contact_9"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 8
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 8
+              state: false
+
+      - name: "Contact 10"
+        unique_id: "modbus_contact_10"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 9
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 9
+              state: false
+
+      - name: "Contact 11"
+        unique_id: "modbus_contact_11"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 10
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 10
+              state: false
+
+      - name: "Contact 12"
+        unique_id: "modbus_contact_12"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 11
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 11
+              state: false
+
+      - name: "Contact 13"
+        unique_id: "modbus_contact_13"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 12
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 12
+              state: false
+
+      - name: "Contact 14"
+        unique_id: "modbus_contact_14"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 13
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 13
+              state: false
+
+      - name: "Contact 15"
+        unique_id: "modbus_contact_15"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 14
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 14
+              state: false
+
+      - name: "Contact 16"
+        unique_id: "modbus_contact_16"
+        optimistic: true
+        turn_on:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 15
+              state: true
+        turn_off:
+          - service: modbus.write_coil
+            data:
+              hub: WaveShare_16channel
+              unit: 1
+              address: 15
+              state: false
